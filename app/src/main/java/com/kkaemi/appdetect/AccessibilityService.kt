@@ -7,10 +7,17 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 
 class AccessibilityService : AccessibilityService() {
+    var check = false
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event!!.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            Log.v("detect!!!", "detect!!!"+event.packageName)
             if("com.coupang.mobile" == event.packageName){
-                Toast.makeText(this.applicationContext, "네이버 웹툰 앱 실행 !", Toast.LENGTH_SHORT).show()
+                if(!check) Toast.makeText(this.applicationContext, "네이버 웹툰 앱 실행 !", Toast.LENGTH_SHORT).show()
+
+                check = true
+            }
+            else {
+                if ("com.samsung.android.honeyboard" != event.packageName) check = false
             }
         }
     }
